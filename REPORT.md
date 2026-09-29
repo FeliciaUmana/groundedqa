@@ -107,3 +107,21 @@ TODO — a few concrete ideas to consider and pick from:
   call per question, where the task allows it.
 - Stick with `llama-3.1-8b-instant` (the smallest model) rather than
   upgrading, unless accuracy testing shows it's insufficient.
+
+
+
+
+## Note on model choice
+
+The task instructions specify `llama-3.1-8b-instant` as the starting model.
+Groq deprecated this model on August 16, 2026 (along with
+`llama-3.3-70b-versatile`), and requests to it now return a 404 — the model
+ID no longer exists on Groq's servers. I confirmed this by checking Groq's
+official deprecations page (console.groq.com/docs/deprecations), which
+lists both models as decommissioned and recommends `openai/gpt-oss-20b` as
+the direct replacement for `llama-3.1-8b-instant`.
+
+I switched `DEFAULT_MODEL` in `client.py` to `openai/gpt-oss-20b`
+accordingly — Groq's official recommended migration path, matching the
+original model's size/speed tier, with no other code changes required
+since it uses the same OpenAI-compatible chat completions schema.
